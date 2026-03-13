@@ -75,6 +75,14 @@ npm run build && npm start
 | `sync.ts` | Path traversal | Resolved path must start with `SYNC_DIR` |
 | `anthropic.ts` | Token/cost explosion | Hard `max_tokens` cap + input truncation |
 
+## Repository Audit
+
+This repository now includes a maintainability and security audit in
+[`ARCHITECTURE_AUDIT.md`](./ARCHITECTURE_AUDIT.md). Read it before exposing this
+project beyond a single-user local machine: it calls out the highest-risk issues,
+over-engineered areas, and the parts that are currently relying on convention
+instead of enforcement.
+
 ## Output Files
 
 - **`SYNC_DIR/Inbox.md`** — Append-only log of Observer summaries with ISO timestamps

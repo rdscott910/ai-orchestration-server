@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { resolve, join } from "path";
+import { resolve, join, relative, isAbsolute } from "path";
 import { config } from "../config.js";
 import { createLogger } from "../utils/logger.js";
 
@@ -13,10 +13,14 @@ const log = createLogger("sync");
  * like `../../etc/passwd` can escape the sandbox.
  */
 function safePath(subPath: string): string {
-  const syncDir = config.get().SYNC_DIR;
+  const syncDir = resolve(config.get().SYNC_DIR);
   const resolved = resolve(join(syncDir, subPath));
+  const relativePath = relative(syncDir, resolved);
 
-  if (!resolved.startsWith(syncDir + "/") && resolved !== syncDir) {
+  if (
+    relativePath !== "" &&
+    (relativePath.startsWith("..") || isAbsolute(relativePath))
+  ) {
     throw new Error(`Path traversal detected: "${subPath}" resolves outside SYNC_DIR`);
   }
 
