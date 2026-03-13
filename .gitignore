@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment — NEVER commit the filled .env
+.env
+
+# macOS
+.DS_Store
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
