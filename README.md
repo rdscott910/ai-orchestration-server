@@ -72,7 +72,7 @@ npm run build && npm start
 | `scraper.ts` | SSRF / protocol injection | URL constructor + http/https-only allowlist |
 | `shell.ts` | Shell injection | `execFile` (no shell) as primary defense |
 | `shell.ts` | Zombie processes | 5-min timeout → SIGTERM → SIGKILL |
-| `sync.ts` | Path traversal | Resolved path must start with `SYNC_DIR` |
+| `sync.ts` | Path traversal | Resolved path must stay within `SYNC_DIR` |
 | `anthropic.ts` | Token/cost explosion | Hard `max_tokens` cap + input truncation |
 
 ## Repository Audit
