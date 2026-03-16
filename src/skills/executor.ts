@@ -50,7 +50,13 @@ export async function execute(args: string, ctx: Context): Promise<void> {
   const cliPath =
     parsed.target === "claude" ? cfg.CLAUDE_CLI_PATH : cfg.CURSOR_CLI_PATH;
 
-  const cliArgs = buildCliArgs(parsed.target, parsed.instruction);
+  const sanitizedInstruction = sanitizeForShell(parsed.instruction);
+  if (!sanitizedInstruction) {
+    await ctx.reply("Instruction is empty after sanitization. Please use plain text.");
+    return;
+  }
+
+  const cliArgs = buildCliArgs(parsed.target, sanitizedInstruction);
 
   await ctx.reply(`Executing via ${parsed.target}...`);
   log.info(`Running ${parsed.target} CLI: ${cliPath} ${cliArgs.join(" ")}`);
@@ -120,14 +126,12 @@ function parseArgs(raw: string): ParsedCommand {
 }
 
 function buildCliArgs(target: AgentTarget, instruction: string): string[] {
-  const sanitized = sanitizeForShell(instruction);
-
   switch (target) {
     case "cursor":
-      return ["--command", sanitized];
+      return ["--command", instruction];
     case "claude":
       // --print sends the instruction non-interactively and prints output to stdout
-      return ["--print", sanitized];
+      return ["--print", instruction];
   }
 }
 

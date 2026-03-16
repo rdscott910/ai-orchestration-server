@@ -72,8 +72,16 @@ npm run build && npm start
 | `scraper.ts` | SSRF / protocol injection | URL constructor + http/https-only allowlist |
 | `shell.ts` | Shell injection | `execFile` (no shell) as primary defense |
 | `shell.ts` | Zombie processes | 5-min timeout → SIGTERM → SIGKILL |
-| `sync.ts` | Path traversal | Resolved path must start with `SYNC_DIR` |
+| `sync.ts` | Path traversal | Resolved path must stay within `SYNC_DIR` |
 | `anthropic.ts` | Token/cost explosion | Hard `max_tokens` cap + input truncation |
+
+## Repository Audit
+
+This repository now includes a maintainability and security audit in
+[`ARCHITECTURE_AUDIT.md`](./ARCHITECTURE_AUDIT.md). Read it before exposing this
+project beyond a single-user local machine: it calls out the highest-risk issues,
+over-engineered areas, and the parts that are currently relying on convention
+instead of enforcement.
 
 ## Output Files
 
